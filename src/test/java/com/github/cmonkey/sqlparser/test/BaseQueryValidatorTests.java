@@ -17,12 +17,14 @@ public class BaseQueryValidatorTests {
     @Test
     @DisplayName("testQueryValidator")
     public void testQueryValidator() throws SqlParseException {
-        final String query = "SELECT e.first_name AS FirstName, s.salary AS Salary from employee AS e join salary AS s on e.emp_id=s.emp_id where e.organization = 'Tesla' and s.organization = 'Tesla'";
+        final String query = "select id, name from foo";
         SqlParser sqlParser = SqlParser.create(query);
         SqlNode sqlNode = sqlParser.parseQuery();
         SqlSelect sqlSelect = (SqlSelect)sqlNode;
-        SqlJoin from = (SqlJoin)sqlSelect.getFrom();
-        List<String> tables = BaseQueryValidator.extractTableNames(from);
+        if(sqlSelect.getFrom() instanceof  SqlJoin) {
+            SqlJoin from = (SqlJoin) sqlSelect.getFrom();
+        }
+        List<String> tables = BaseQueryValidator.extractTableNames(sqlNode);
         tables.forEach(table -> {
             System.out.println(" table = " + table);
         });
