@@ -1,8 +1,6 @@
 package com.github.cmonkey.sqlparser;
 
 import org.apache.calcite.sql.*;
-import org.apache.calcite.sql.fun.SqlBaseContextVariable;
-import com.google.common.collect.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +20,7 @@ public class BaseQueryValidator {
         }
         if(node.getKind().equals(SqlKind.IDENTIFIER)){
             SqlIdentifier sqlIdentifier = (SqlIdentifier)node;
-            sqlIdentifier.names.stream().forEach(tables::add);
+            tables.addAll(sqlIdentifier.names);
             return tables;
         }
 
